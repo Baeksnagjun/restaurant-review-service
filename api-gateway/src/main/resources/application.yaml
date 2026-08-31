@@ -25,12 +25,16 @@ spring:
                 allow-credentials: false
           routes:
             - id: member-service
-              uri: http://localhost:8081
+              uri: lb://MEMBER-SERVICE
               predicates:
                 - Path=/api/members/**
 
             - id: review-service
-              uri: http://localhost:8082
+              uri: lb://REVIEW-SERVICE
               predicates:
                 - Path=/api/reviews/**
 
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URL:http://localhost:8761/eureka}
