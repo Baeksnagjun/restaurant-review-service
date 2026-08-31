@@ -10,6 +10,7 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+
 eureka:
   client:
     service-url:
@@ -18,14 +19,15 @@ eureka:
 logging:
   level:
     com.example.reviewservice: DEBUG
-  resilience4j:
-    circuitbreaker:
-      instances:
-        member-service:
-          sliding-window-size: 5
-          failure-rate-threshold: 50
-          wait-duration-in-open-state: 30s
-          permitted-number-of-calls-in-half-open-state: 3
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      member-service:
+        sliding-window-size: 5
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 30s
+        permitted-number-of-calls-in-half-open-state: 3
 
 server:
   port: 8082
