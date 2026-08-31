@@ -1,6 +1,7 @@
 package com.example.reviewservice.service;
 
 
+import com.example.reviewservice.client.MemberClientWrapper;
 import com.example.reviewservice.client.MemberServiceClient;
 import com.example.reviewservice.domain.Review;
 import com.example.reviewservice.dto.MemberDto;
@@ -19,7 +20,8 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class ReviewService {
     private final ReviewRepository reviewRepository;
-    private final MemberServiceClient memberServiceClient;
+    //private final MemberServiceClient memberServiceClient;
+    private  final MemberClientWrapper memberClientWrapper;
 
 
     @Transactional
@@ -31,7 +33,8 @@ public class ReviewService {
                 .memberId(request.getMemberId())
                 .build();
         Review saved=reviewRepository.save(review);
-        MemberDto member = memberServiceClient.getMember(saved.getMemberId());
+       // MemberDto member = memberServiceClient.getMember(saved.getMemberId());
+        MemberDto member = memberClientWrapper.getMember(saved.getMemberId());
         return ReviewResponseDto.from(saved, member);
     }
 
@@ -39,7 +42,7 @@ public class ReviewService {
         List<Review> reviews = reviewRepository.findAll();
         return reviews.stream()
                 .map(review -> {
-                    MemberDto member = memberServiceClient
+                    MemberDto member = memberClientWrapper
                             .getMember((review.getMemberId()));
                     return ReviewResponseDto
                             .from(review, member);
@@ -50,7 +53,7 @@ public class ReviewService {
     public ReviewResponseDto getReview(Long id) {
         Review review = reviewRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("리뷰를 찾을수 없습니다."));
-        MemberDto member = memberServiceClient
+        MemberDto member = memberClientWrapper
                 .getMember(review.getMemberId());
         return ReviewResponseDto.from(review, member);
     }
@@ -65,7 +68,7 @@ public class ReviewService {
                 request.getContent()
         );
 
-        MemberDto member = memberServiceClient
+        MemberDto member = memberClientWrapper
                 .getMember(review.getMemberId());
         return ReviewResponseDto.from(review, member);
     }
