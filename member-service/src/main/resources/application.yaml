@@ -5,8 +5,8 @@ spring:
     name: member-service
   datasource:
     url: ${DB_URL:jdbc:postgresql://localhost:5432/member_db}
-    username: ${DB_USERNAME:postgres}
-    password: ${DB_PASSWORD:password}
+    username: ${DB_USERNAME:baeksangjun}
+    password: ${DB_PASSWORD:}
   jpa:
     hibernate:
       ddl-auto: update
